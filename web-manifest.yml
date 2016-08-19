@@ -1,0 +1,16 @@
+---
+applications:
+- name: concourse-web
+  buildpack: binary_buildpack
+  command: ./web-start
+  memory: 1G
+  instances: 1
+  host: concourse
+  env:
+    CONCOURSE_BASIC_AUTH_USERNAME: concourse
+    CONCOURSE_BASIC_AUTH_PASSWORD: concourse
+    CONCOURSE_SESSION_SIGNING_KEY: credentials/session_signing_key
+    CONCOURSE_TSA_HOST_KEY: credentials/host_key
+    CONCOURSE_TSA_AUTHORIZED_KEYS: credentials/authorized_worker_keys
+    CONCOURSE_TSA_BIND_PORT: 4444
+    CONCOURSE_POSTGRES_DATA_SOURCE: postgres://concourse:admin@10.244.0.30:5524/concourse?sslmode=disable

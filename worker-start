@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e -u
+export MY_IP=$(./get-my-ip)
+export CONCOURSE_PEER_IP=$MY_IP
+
+env
+
+echo "starting worker"
+./bin/concourse worker

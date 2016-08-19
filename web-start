@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e -u
+
+export MY_IP=$(./get-my-ip)
+export CONCOURSE_PEER_URL="http://$MY_IP:$PORT"
+export CONCOURSE_EXTERNAL_URL="http://$(echo $VCAP_APPLICATION | ./bin/jq -r .uris[0])"
+export CONCOURSE_BIND_PORT=$PORT
+
+env
+
+echo "server starting"
+./bin/concourse web

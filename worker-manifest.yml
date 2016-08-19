@@ -1,0 +1,17 @@
+---
+applications:
+- name: concourse-worker
+  buildpack: binary_buildpack
+  command: ./worker-start
+  memory: 1G
+  disk_quota: 2G
+  instances: 2
+  no-route: true
+  health-check-type: none
+  env:
+    CONCOURSE_WORK_DIR: /home/vcap/app/tmp
+    CONCOURSE_TSA_HOST: 10.255.91.51  # Replace with IP address of web instance
+    CONCOURSE_TSA_PORT: 4444
+    CONCOURSE_TSA_PUBLIC_KEY: credentials/host_key.pub
+    CONCOURSE_TSA_WORKER_PRIVATE_KEY: credentials/worker_key
+    CF_MAGIC_RUN_AS_USER: root

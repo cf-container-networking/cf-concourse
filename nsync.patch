@@ -1,0 +1,30 @@
+diff --git a/recipebuilder/buildpack_recipe_builder.go b/recipebuilder/buildpack_recipe_builder.go
+index 9ee86bd..7a44b67 100644
+--- a/recipebuilder/buildpack_recipe_builder.go
++++ b/recipebuilder/buildpack_recipe_builder.go
+@@ -177,10 +177,10 @@ func (b *BuildpackRecipeBuilder) Build(desiredApp *cc_messages.DesireAppRequestF
+ 
+ 	setup = append(setup, downloadAction)
+ 	actions = append(actions, &models.RunAction{
+-		User: "vcap",
++		User: getRunAsUser(desiredApp.Environment),
+ 		Path: "/tmp/lifecycle/launcher",
+ 		Args: append(
+-			[]string{"app"},
++			[]string{"/home/vcap/app"},
+ 			desiredApp.StartCommand,
+ 			desiredApp.ExecutionMetadata,
+ 		),
+@@ -289,3 +289,12 @@ func (b *BuildpackRecipeBuilder) Build(desiredApp *cc_messages.DesireAppRequestF
+ func (b BuildpackRecipeBuilder) ExtractExposedPorts(desiredApp *cc_messages.DesireAppRequestFromCC) ([]uint32, error) {
+ 	return getDesiredAppPorts(desiredApp.Ports), nil
+ }
++
++func getRunAsUser(environment []*models.EnvironmentVariable) string {
++	for _, ev := range environment {
++		if ev.Name == "CF_MAGIC_RUN_AS_USER" {
++			return ev.Value
++		}
++	}
++	return "vcap"
++}

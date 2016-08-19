@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -e -u
+export MY_IP=$(ip addr | grep '10.255' | awk '{ print $2 }' | cut -d '/' -f1)
+echo $MY_IP
