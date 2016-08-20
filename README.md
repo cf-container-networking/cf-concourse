@@ -2,6 +2,8 @@
 
 A demo of CF container networking
 
+![Example](example-screenshot.png)
+
 0. Open a security hole in your CloudFoundry
   ```bash
   PATCH_FILE="`pwd`/nsync.patch"
